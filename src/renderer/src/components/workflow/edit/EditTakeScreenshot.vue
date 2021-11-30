@@ -1,0 +1,58 @@
+<template>
+  <div class="flex items-center mb-2 mt-8">
+    <el-input
+      :model-value="data.fileName"
+      placeholder="File name"
+      class="mr-2"
+      title="File name"
+      @change="updateData({ fileName: $event })"
+    />
+    <el-select
+      :model-value="data.ext || 'png'"
+      placeholder="Type"
+      @change="updateData({ ext: $event })"
+    >
+      <el-option value="png">PNG</el-option>
+      <el-option value="jpeg">JPEG</el-option>
+    </el-select>
+  </div>
+  <p class="text-sm text-gray-600 ml-2">Image quality:</p>
+  <div class="bg-box-transparent px-4 mb-4 py-2 rounded-lg flex items-center">
+    <input
+      :value="data.quality"
+      title="Image quality"
+      class="focus:outline-none flex-1"
+      type="range"
+      min="0"
+      max="100"
+      @change="updateQuality"
+    />
+    <span class="w-12 text-right">{{ data.quality }}%</span>
+  </div>
+  <el-checkbox
+    v-if="false"
+    :model-value="data.captureActiveTab"
+    @change="updateData({ captureActiveTab: $event })"
+  >Take screenshoot of active tab</el-checkbox>
+</template>
+<script setup>
+const props = defineProps({
+  data: {
+    type: Object,
+    default: () => ({}),
+  },
+});
+const emit = defineEmits(['update:data']);
+
+function updateData(value) {
+  emit('update:data', { ...props.data, ...value });
+}
+function updateQuality({ target }) {
+  let quality = +target.value;
+
+  if (quality <= 0) quality = 0;
+  if (quality >= 100) quality = 100;
+
+  updateData({ quality });
+}
+</script>

@@ -1,0 +1,64 @@
+{
+  "name": "autonode",
+  "version": "0.0.0",
+  "main": "electron/main.js",
+  "build": {
+    "appId": "com.mance.autonode",
+    "productName": "ElectronApp",
+    "copyright": "Copyright © 2021 mance",
+    "mac": {
+      "category": "public.app-category.utilities"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*"
+    ],
+    "directories": {
+      "buildResources": "assets",
+      "output": "dist_electron"
+    }
+  },
+  "scripts": {
+    "dev": "cross-env NODE_ENV=dev concurrently -k \"yarn server\" \"yarn electron\"",
+    "server": "vite",
+    "build": "cross-env NODE_ENV=production vite build && electron-builder",
+    "vite:build": "vite build",
+    "serve": "vite preview",
+    "electron": "electron ."
+  },
+  "dependencies": {
+    "dayjs": "^1.10.7",
+    "drawflow": "^0.0.53",
+    "element-plus": "^1.2.0-beta.3",
+    "lodash": "^4.17.21",
+    "nanoid": "^3.1.30",
+    "nprogress": "^0.2.0",
+    "prismjs": "^1.25.0",
+    "remixicon": "^2.5.0",
+    "screenfull": "^5.1.0",
+    "tailwindcss": "^2.2.19",
+    "tiny-emitter": "^2.1.0",
+    "vue": "^3.2.16",
+    "vue-prism-editor": "^2.0.0-alpha.2",
+    "vue-router": "^4.0.11",
+    "vuex": "^4.0.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^1.6.0",
+    "@vue/compiler-sfc": "^3.2.8",
+    "unplugin-vue-components": "^0.17.2",
+    "autoprefixer": "^10.4.0",
+    "concurrently": "^6.4.0",
+    "cross-env": "^7.0.3",
+    "electron": "^16.0.0",
+    "electron-builder": "^22.13.1",
+    "postcss": "^8.4.1",
+    "sass": "^1.39.0",
+    "vite": "^2.6.4",
+    "wait-on": "^6.0.0"
+  }
+}
