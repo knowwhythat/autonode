@@ -23,4 +23,12 @@ export default defineConfig({
     host: pkg.env.HOST,
     port: pkg.env.PORT,
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@import "../src/renderer/src/assets/style/element-variables.scss";`,
+        //引用公共样式，使用vite搭建项目只安装sass即可，不需要安装node-sass,sass-loader
+      },
+    },
+  },
 })
