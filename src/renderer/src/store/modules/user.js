@@ -8,6 +8,7 @@ const state = {
   activeRoute: '/',
   keepAliveRoutes: [],
   getIsDynamicRoute: false,
+  localConfig: {},
 }
 
 const mutations = {
@@ -31,6 +32,9 @@ const mutations = {
   },
   SET_DYNAMICROUTE: (state, status) => {
     state.getIsDynamicRoute = status
+  },
+  SET_LOCAL_CONFIG: (state, config) => {
+    state.localConfig = config
   },
 }
 
@@ -70,6 +74,10 @@ const actions = {
   },
   setDynamicRoute({ commit }, status) {
     commit('SET_DYNAMICROUTE', status)
+  },
+  setLocalConfig({ commit }, config) {
+    console.log(config)
+    commit('SET_LOCAL_CONFIG', config)
   },
 }
 
