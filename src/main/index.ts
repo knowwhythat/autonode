@@ -1,7 +1,7 @@
 import path from 'path'
 import { app, BrowserWindow } from 'electron'
 
-import { ipc } from './ipc'
+import { initIpc } from './mainIpc'
 
 app.disableHardwareAcceleration()
 
@@ -30,10 +30,8 @@ async function bootstrap() {
     win.webContents.openDevTools()
   }
   const ses = win.webContents.session
-  ses.loadExtension(
-    'C:\\Users\\Administrator\\AppData\\Local\\Microsoft\\Edge\\User Data\\Default\\Extensions\\khampijcelfojpjcmmiibmhfkhacjhhj\\6.0.0.20_0'
-  )
-  ipc(win)
+  ses.loadExtension('C:\\Users\\Administrator\\AppData\\Local\\Microsoft\\Edge\\User Data\\Default\\Extensions\\khampijcelfojpjcmmiibmhfkhacjhhj\\6.0.0.20_0')
+  initIpc(win)
 }
 
 app.whenReady().then(bootstrap)

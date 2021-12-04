@@ -76,7 +76,6 @@ const actions = {
     commit('SET_DYNAMICROUTE', status)
   },
   setLocalConfig({ commit }, config) {
-    console.log(config)
     commit('SET_LOCAL_CONFIG', config)
   },
 }
