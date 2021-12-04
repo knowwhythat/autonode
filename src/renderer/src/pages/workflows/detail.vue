@@ -31,6 +31,16 @@
         />
       </keep-alive>
     </div>
+    <el-dialog v-model="state.showDataColumnsModal" title="变量池">
+      <workflow-data-columns
+        v-bind="{ workflow }"
+        @update="updateWorkflow"
+        @close="state.showDataColumnsModal = false"
+      />
+    </el-dialog>
+    <el-dialog v-model="state.showSettings" title="设置">
+      <workflow-settings v-bind="{ workflow }" @update="updateWorkflow" />
+    </el-dialog>
   </div>
 </template>
 <script setup>
@@ -45,17 +55,18 @@ import {
 } from 'vue';
 import { useStore } from 'vuex';
 import emitter from 'tiny-emitter/instance';
-import { useRoute, useRouter, onBeforeRouteLeave } from 'vue-router';
+import { useRoute, onBeforeRouteLeave } from 'vue-router';
 import { debounce } from 'lodash';
 import WorkflowBuilder from '@/components/workflow/WorkflowBuilder.vue';
 import WorkflowDetailsCard from '@/components/workflow/WorkflowDetailCard.vue';
 import WorkflowEditBlock from '@/components/workflow/WorkflowEditBlock.vue';
+import WorkflowDataColumns from '@/components/workflow/WorkflowDataColumns.vue';
+import WorkflowSettings from '@/components/workflow/WorkflowSettings.vue';
 import { ElMessageBox } from 'element-plus'
 import { exportWorkflow } from '@/utils/helper'
 
 const store = useStore();
 const route = useRoute();
-const router = useRouter();
 
 const workflowId = route.params.id;
 const editor = shallowRef(null);

@@ -18,7 +18,7 @@ export function exportWorkflow(workflow) {
   })
   const url = URL.createObjectURL(blob)
 
-  fileSaver(`${workflow.name}.json`, url)
+  fileSaver(`${workflow.workflowId}.json`, url)
 }
 
 export function countDuration(started, ended) {

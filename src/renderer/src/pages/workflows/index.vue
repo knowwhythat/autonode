@@ -102,6 +102,8 @@ export default {
         name: null,
         icon: 'ri-window-line',
         drawflow: null,
+        dataColumns: [],
+        settings: {}
       },
       rules: {
         name: [{ required: true, message: '请输入工作流名称', trigger: 'blur', },
