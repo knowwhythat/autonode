@@ -1,4 +1,4 @@
-import { listWorkflows, saveWorkflow, delWorkflow } from '@/utils/ipc'
+import { listWorkflows, saveWorkflow, delWorkflow, executeWorkflow } from '@/utils/ipc'
 const state = {
   workflows: [],
 }
@@ -50,6 +50,12 @@ const actions = {
     if (workflow.workflowId) {
       commit('DEL_WORKFLOW', workflow)
       delWorkflow(workflow.workflowId)
+    }
+  },
+  executeWorkflow({ commit }, workflow) {
+    if (workflow.workflowId) {
+      commit('UPDATE_WORKFLOW', { ...workflow, executing: true })
+      executeWorkflow(workflow)
     }
   },
 }

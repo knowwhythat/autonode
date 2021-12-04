@@ -27,4 +27,8 @@ export async function initIpc(window: BrowserWindow) {
       return deleteFile(path.join(config.workflowPath, arg + '.json'))
     })
   })
+
+  ipcMain.on('executeWorkflow', (event, arg) => {
+    console.log(arg)
+  })
 }

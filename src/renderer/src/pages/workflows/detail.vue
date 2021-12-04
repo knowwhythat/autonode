@@ -62,7 +62,7 @@ import WorkflowDetailsCard from '@/components/workflow/WorkflowDetailCard.vue';
 import WorkflowEditBlock from '@/components/workflow/WorkflowEditBlock.vue';
 import WorkflowDataColumns from '@/components/workflow/WorkflowDataColumns.vue';
 import WorkflowSettings from '@/components/workflow/WorkflowSettings.vue';
-import { ElMessageBox } from 'element-plus'
+import { ElMessageBox, ElMessage } from 'element-plus'
 import { exportWorkflow } from '@/utils/helper'
 
 const store = useStore();
@@ -105,7 +105,32 @@ const updateBlockData = debounce((data) => {
 
   if (inputEl) inputEl.dispatchEvent(new Event('change'));
 }, 250);
-function executeWorkflow() { }
+function executeWorkflow() {
+  if (editor.value.getNodesFromName('trigger').length === 0) {
+    ElMessage({
+      message: '必须有个Trigger作为工作流的开始',
+      type: 'warning',
+    })
+    return;
+  }
+  const payload = {
+    ...workflow.value,
+    drawflow: editor.value.export(),
+    isTesting: state.isDataChanged,
+  };
+  if (workflow.value.executing) {
+    ElMessageBox.confirm(`"${workflow.value.name}"正在运行中，确定要重新运行?`, '执行', {
+      confirmButtonText: '确认',
+      cancelButtonText: '取消',
+      type: 'warning',
+    }).then(() => {
+      store.dispatch('workflow/executeWorkflow', payload)
+    }).catch(() => {
+    })
+  } else {
+    store.dispatch('workflow/executeWorkflow', payload)
+  }
+}
 function updateWorkflow(data) {
   return store.dispatch('workflow/updateWorkFlow', Object.assign({}, workflow.value, data))
 }

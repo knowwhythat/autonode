@@ -19,3 +19,7 @@ export function saveWorkflow(data) {
 export function delWorkflow(workflowId) {
   window.ipcRenderer.send('delWorkflow', workflowId)
 }
+
+export function executeWorkflow(data) {
+  window.ipcRenderer.send('executeWorkflow', JSON.stringify(data, null, 2))
+}

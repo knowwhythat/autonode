@@ -1,9 +1,14 @@
 <template>
   <el-card shadow="hover">
     <template #header>
-      <div class="flex justify-start cursor-pointer items-center" @click="workflowDetail">
-        <i :class="workflow.icon" class="ri-xl mr-2" />
-        <p :title="workflow.name">{{ truncate(workflow.name, { length: 25 }) }}</p>
+      <div class="cursor-pointer" @click="workflowDetail">
+        <div class="flex justify-start items-center">
+          <i :class="workflow.icon" class="ri-xl mr-2" />
+          <p :title="workflow.name">{{ truncate(workflow.name, { length: 25 }) }}</p>
+        </div>
+        <p
+          class="text-gray-600 dark:text-gray-200 leading-tight text-overflow mt-2"
+        >{{ formatDate() }}</p>
       </div>
     </template>
     <div class="flex items-center justify-between">
@@ -20,7 +25,8 @@
 </template>
 <script setup>
 import { truncate } from 'lodash'
-import { useRouter } from 'vue-router';
+import { useRouter } from 'vue-router'
+import dayjs from '@/utils/dayjs'
 
 const router = useRouter();
 const props = defineProps({
@@ -37,6 +43,7 @@ defineEmits(['delete', 'export', 'rename', 'execute']);
 function workflowDetail() {
   router.push({ path: "detail/" + props.workflow.workflowId })
 }
+const formatDate = () => dayjs(props.workflow.createdAt).fromNow();
 const menu = [
   { name: '运行', icon: 'ri-play-line', action: 'execute' },
   { name: '导出', icon: 'ri-download-cloud-2-line', action: 'export' },

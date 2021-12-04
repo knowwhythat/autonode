@@ -37,9 +37,9 @@
       />
     </div>
     <el-dialog v-model="state.dialogWorkFlowVisible" title="新建工作流" :append-to-body="true">
-      <el-form :model="dataForm" ref="form" :rules="rules">
-        <el-form-item label="工作流名称" :label-width="100">
-          <el-input v-model="dataForm.name" prop="name"></el-input>
+      <el-form :model="dataForm" ref="form" :rules="rules" label-width="100px">
+        <el-form-item label="工作流名称" prop="name">
+          <el-input v-model="dataForm.name"></el-input>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -57,7 +57,8 @@ import { useStore } from 'vuex';
 import { nanoid } from 'nanoid';
 import { Search } from '@element-plus/icons'
 import WorkflowCard from '@/components/workflow/WorkflowCard.vue'
-import { exportWorkflow } from '@/utils/helper';
+import { exportWorkflow } from '@/utils/helper'
+import { ElMessageBox } from 'element-plus'
 
 const store = useStore();
 
@@ -75,7 +76,14 @@ const state = shallowReactive({
 const workflows = computed(() => store.getters.getWorkflows(state.query, state.sortBy, state.sortOrder));
 
 function executeWorkflow(workflow) {
-
+  ElMessageBox.confirm(`确定要运行"${workflow.name}"?`, '执行', {
+    confirmButtonText: '确认',
+    cancelButtonText: '取消',
+    type: 'warning',
+  }).then(() => {
+    store.dispatch('workflow/executeWorkflow', payload)
+  }).catch(() => {
+  })
 }
 
 function beforeUpload(file) {
@@ -84,6 +92,7 @@ function beforeUpload(file) {
     try {
       const workflow = JSON.parse(target.result);
       workflow.workflowId = nanoid(32)
+      workflow.createdAt = Date.now()
       store.dispatch('workflow/saveWorkFlow', workflow)
     } catch (error) {
       this.$message.error("导入失败，请检查文件是否正确");
@@ -103,7 +112,8 @@ export default {
         icon: 'ri-window-line',
         drawflow: null,
         dataColumns: [],
-        settings: {}
+        settings: {},
+        createdAt: null
       },
       rules: {
         name: [{ required: true, message: '请输入工作流名称', trigger: 'blur', },
@@ -114,21 +124,20 @@ export default {
   methods: {
     saveWorkFlow() {
       this.$refs['form'].validate((valid) => {
-        if (valid) {
-        } else {
+        if (!valid) {
           return false
         }
+        if (!this.dataForm.workflowId) {
+          this.dataForm.workflowId = nanoid(32)
+          this.dataForm.createdAt = Date.now()
+          this.$store.dispatch('workflow/saveWorkFlow', this.dataForm)
+          this.state.dialogWorkFlowVisible = false
+        } else {
+          this.$store.dispatch('workflow/updateWorkFlow', this.dataForm)
+          this.state.dialogWorkFlowVisible = false
+        }
+        this.resetDataForm()
       })
-      if (!this.dataForm.workflowId) {
-        this.dataForm.workflowId = nanoid(32)
-        this.$store.dispatch('workflow/saveWorkFlow', this.dataForm)
-        this.state.dialogWorkFlowVisible = false
-        // this.$router.push("detail/" + this.dataForm.workflowId)
-      } else {
-        this.$store.dispatch('workflow/updateWorkFlow', this.dataForm)
-        this.state.dialogWorkFlowVisible = false
-      }
-      this.resetDataForm()
     },
     renameWorkflow(workflow) {
       this.dataForm = workflow
@@ -145,6 +154,9 @@ export default {
         name: null,
         icon: 'ri-window-line',
         drawflow: null,
+        dataColumns: [],
+        settings: {},
+        createdAt: null
       }
     }
   }
