@@ -1,6 +1,6 @@
 import path from 'path'
 import { app } from 'electron'
-import { getUserConfig } from './file'
+import { getUserConfig } from './utils/file'
 
 const user_config = 'user_config.json'
 const base_path = 'userData'

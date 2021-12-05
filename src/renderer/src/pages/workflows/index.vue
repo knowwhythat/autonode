@@ -81,7 +81,7 @@ function executeWorkflow(workflow) {
     cancelButtonText: '取消',
     type: 'warning',
   }).then(() => {
-    store.dispatch('workflow/executeWorkflow', payload)
+    store.dispatch('workflow/executeWorkflow', workflow)
   }).catch(() => {
   })
 }

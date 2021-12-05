@@ -1,6 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import { UserConfig } from './config'
+import { UserConfig } from '../config'
 
 export async function getUserConfig(userConfigPath: string, defaultConfig: UserConfig): Promise<UserConfig> {
   return new Promise<UserConfig>((r, j) => {
