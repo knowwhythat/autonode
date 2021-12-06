@@ -1,9 +1,8 @@
 import fs from 'fs'
 import path from 'path'
-import { UserConfig } from '../config'
 
-export async function getUserConfig(userConfigPath: string, defaultConfig: UserConfig): Promise<UserConfig> {
-  return new Promise<UserConfig>((r, j) => {
+export async function getUserConfig(userConfigPath, defaultConfig) {
+  return new Promise((r, j) => {
     readJsonPromise(userConfigPath)
       .then(data => {
         r({
@@ -24,8 +23,8 @@ export async function getUserConfig(userConfigPath: string, defaultConfig: UserC
   })
 }
 
-export async function readJsonPromise(filePath: string): Promise<any> {
-  return new Promise<any>((res, rej) => {
+export async function readJsonPromise(filePath) {
+  return new Promise((res, rej) => {
     const tempFilePath = filePath.endsWith('.json') ? filePath : `${filePath}.json`
     readNormalFile(tempFilePath)
       .then(data => {
@@ -37,9 +36,9 @@ export async function readJsonPromise(filePath: string): Promise<any> {
   })
 }
 
-export async function readNormalFile(filePath: string): Promise<Buffer> {
+export async function readNormalFile(filePath) {
   // 通用的文件读取方法
-  return new Promise<Buffer>((res, rej) => {
+  return new Promise((res, rej) => {
     fs.readFile(filePath, (err, data) => {
       if (err) {
         rej(err)
@@ -50,8 +49,8 @@ export async function readNormalFile(filePath: string): Promise<Buffer> {
   })
 }
 
-export const saveJsonPromise = (filePath: string, data: any): Promise<void> => {
-  return new Promise<void>((res, rej) => {
+export const saveJsonPromise = (filePath, data) => {
+  return new Promise((res, rej) => {
     const tempData = typeof data === 'string' ? data : JSON.stringify(data, null, 2)
     const tempFilePath = filePath.endsWith('.json') ? filePath : `${filePath}.json`
     if (!tempData) {
@@ -68,9 +67,9 @@ export const saveJsonPromise = (filePath: string, data: any): Promise<void> => {
   })
 }
 
-export const saveNormalFile = (file: string, dataBuffer: string): Promise<void> => {
+export const saveNormalFile = (file, dataBuffer) => {
   // 通用的文件保方法
-  return new Promise<void>((res, rej) => {
+  return new Promise((res, rej) => {
     fs.writeFile(file, dataBuffer, err => {
       if (err) {
         rej(err)
@@ -81,7 +80,7 @@ export const saveNormalFile = (file: string, dataBuffer: string): Promise<void> 
   })
 }
 
-export const ensureDirectoryExistence = (dirPath: string): void => {
+export const ensureDirectoryExistence = dirPath => {
   if (!fs.existsSync(dirPath)) {
     const parentDir = path.dirname(dirPath)
     ensureDirectoryExistence(parentDir)
@@ -89,7 +88,7 @@ export const ensureDirectoryExistence = (dirPath: string): void => {
   }
 }
 
-export const listWorkflows = (dirPath: string) => {
+export const listWorkflows = dirPath => {
   ensureDirectoryExistence(dirPath)
   return new Promise((res, rej) => {
     fs.readdir(dirPath, (err, files) => {
@@ -103,7 +102,7 @@ export const listWorkflows = (dirPath: string) => {
   })
 }
 
-export const deleteFile = (filePath: string) => {
+export const deleteFile = filePath => {
   if (fs.existsSync(filePath)) {
     fs.unlinkSync(filePath)
   }

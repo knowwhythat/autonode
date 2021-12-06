@@ -8,18 +8,12 @@ const basePath = app.getPath(base_path)
 const userConfigPath = basePath + path.sep + user_config
 const workflowPath = basePath + path.sep + 'workflows'
 
-export interface UserConfig {
-  workflowPath: string
-}
+var userConfig
 
-const DEFAULT_CONFIG: UserConfig = {
-  workflowPath: workflowPath,
-}
+const DEFAULT_CONFIG = { workflowPath: workflowPath }
 
-var userConfig: UserConfig
-
-export async function fetchUserConfig(): Promise<UserConfig> {
-  return new Promise<UserConfig>((res, rej) => {
+export async function fetchUserConfig() {
+  return new Promise((res, rej) => {
     if (userConfig) {
       res(userConfig)
     } else {

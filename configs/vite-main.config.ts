@@ -8,17 +8,14 @@ export default defineConfig({
   build: {
     outDir: '../../dist/main',
     lib: {
-      entry: 'index.ts',
+      entry: 'index.js',
       formats: ['cjs'],
     },
     sourcemap: false,
     minify: false,
     emptyOutDir: true,
     rollupOptions: {
-      external: [
-        ...builtinModules,
-        'electron',
-      ],
+      external: [...builtinModules, 'electron'],
       output: {
         entryFileNames: '[name].cjs',
       },
