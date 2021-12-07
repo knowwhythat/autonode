@@ -2,6 +2,9 @@ import path from 'path'
 import { ipcMain } from 'electron'
 import { fetchUserConfig } from './config'
 import { listWorkflows, saveJsonPromise, deleteFile } from './utils/file'
+import WorkflowEngine from './workflow-engine'
+
+const runningWorkflows = {}
 
 ipcMain.handle('listWorkflows', async (event, arg) => {
   const result = await fetchUserConfig()
@@ -27,22 +30,21 @@ ipcMain.on('delWorkflow', (event, arg) => {
   })
 })
 
-const playwright = require('playwright-core')
 ipcMain.on('executeWorkflow', async (event, arg) => {
-  let workflow = JSON.parse(arg)
-  const browser = await playwright.firefox.launch({ headless: false })
-  const context = await browser.newContext()
-  const page = await context.newPage()
-
-  await page.goto('https://www.baidu.com/')
-  await page.type("input[name='q']", 'Playwright')
-  await page.keyboard.press('Enter')
-  await page.waitForNavigation()
-  await page.waitForSelector('#result-stats')
-  const elHandle = await page.$('#result-stats')
-  const resultText = await elHandle.evaluate(el => el.innerText)
-  event.returnValue = resultText
-  console.log(workflow)
+  try {
+    const engine = new WorkflowEngine(JSON.parse(arg), event, {})
+    engine.init()
+    runningWorkflows[engine.id] = engine
+    engine.on('destroyed', ({ id }) => {
+      delete runningWorkflows[id]
+    })
+  } catch (e) {
+    console.error(e)
+    event.reply('执行失败')
+  }
 })
 
-ipcMain.on('stopWorkflow', (event, arg) => {})
+ipcMain.on('stopWorkflow', (event, arg) => {
+  runningWorkflows[id]?.destroy()
+  delete runningWorkflows[id]
+})

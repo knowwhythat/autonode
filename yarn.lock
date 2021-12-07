@@ -1808,6 +1808,11 @@ is-path-inside@^3.0.2:
   resolved "https://registry.nlark.com/is-path-inside/download/is-path-inside-3.0.3.tgz#d231362e53a07ff2b0e0ea7fed049161ffd16283"
   integrity sha1-0jE2LlOgf/Kw4Op/7QSRYf/RYoM=
 
+is-plain-object@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.npm.taobao.org/is-plain-object/download/is-plain-object-5.0.0.tgz#4427f50ab3429e9025ea7d52e9043a9ef4159344"
+  integrity sha1-RCf1CrNCnpAl6n1S6QQ6nvQVk0Q=
+
 is-typedarray@^1.0.0:
   version "1.0.0"
   resolved "https://registry.nlark.com/is-typedarray/download/is-typedarray-1.0.0.tgz#e479c80858df0c1b11ddda6940f96011fcda4a9a"
@@ -2125,6 +2130,19 @@ object-keys@^1.0.12:
   version "1.1.1"
   resolved "https://registry.nlark.com/object-keys/download/object-keys-1.1.1.tgz#1c47f272df277f3b1daf061677d9c82e2322c60e"
   integrity sha1-HEfyct8nfzsdrwYWd9nILiMixg4=
+
+object-path-immutable@^4.1.2:
+  version "4.1.2"
+  resolved "https://registry.npmmirror.com/object-path-immutable/download/object-path-immutable-4.1.2.tgz#d78e3587f03c9a41f83dd6465cfef5a9eb390bb4"
+  integrity sha1-1441h/A8mkH4PdZGXP71qes5C7Q=
+  dependencies:
+    is-plain-object "^5.0.0"
+    object-path "^0.11.8"
+
+object-path@^0.11.8:
+  version "0.11.8"
+  resolved "https://registry.nlark.com/object-path/download/object-path-0.11.8.tgz?cache=0&sync_timestamp=1631790112472&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fobject-path%2Fdownload%2Fobject-path-0.11.8.tgz#ed002c02bbdd0070b78a27455e8ae01fc14d4742"
+  integrity sha1-7QAsArvdAHC3iidFXorgH8FNR0I=
 
 once@^1.3.0, once@^1.3.1, once@^1.4.0:
   version "1.4.0"
