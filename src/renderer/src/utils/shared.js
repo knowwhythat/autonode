@@ -50,7 +50,7 @@ export const tasks = {
     data: {
       description: '',
       forceNew: false,
-      brower: 1,
+      browser: 1,
       executablePath: '',
       headless: false,
     },

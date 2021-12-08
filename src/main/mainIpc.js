@@ -2,7 +2,7 @@ import path from 'path'
 import { ipcMain } from 'electron'
 import { fetchUserConfig } from './config'
 import { listWorkflows, saveJsonPromise, deleteFile } from './utils/file'
-import WorkflowEngine from './workflow-engine'
+import workflowEngine from './workflow-engine'
 
 const runningWorkflows = {}
 
@@ -32,7 +32,7 @@ ipcMain.on('delWorkflow', (event, arg) => {
 
 ipcMain.on('executeWorkflow', async (event, arg) => {
   try {
-    const engine = new WorkflowEngine(JSON.parse(arg), event, {})
+    const engine = workflowEngine(JSON.parse(arg), event, {})
     engine.init()
     runningWorkflows[engine.id] = engine
     engine.on('destroyed', ({ id }) => {
