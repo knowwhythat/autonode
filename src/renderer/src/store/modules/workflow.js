@@ -1,6 +1,7 @@
 import { listWorkflows, saveWorkflow, delWorkflow, executeWorkflow } from '@/utils/ipc'
 const state = {
-  workflows: [],
+  workflows: {},
+  logs: {},
 }
 
 const mutations = {
@@ -8,19 +9,19 @@ const mutations = {
     state.workflows = workflows
   },
   SAVE_WORKFLOW(state, workflow) {
-    state.workflows.push(workflow)
+    state.workflows[workflow.workflowId] = workflow
   },
   DEL_WORKFLOW(state, workflow) {
-    state.workflows = state.workflows.filter(({ workflowId }) => workflowId !== workflow.workflowId)
+    state.workflows = delete state.workflows[workflow.workflowId]
   },
   UPDATE_WORKFLOW(state, workflow) {
-    state.workflows = state.workflows.map(saved => {
-      if (saved.workflowId === workflow.workflowId) {
-        return workflow
-      } else {
-        return saved
-      }
-    })
+    state.workflows[workflow.workflowId] = workflow
+  },
+  ADD_LOG(state, log) {
+    if (!state.logs[log.id]) {
+      state.logs[log.id] = []
+    }
+    state.logs[log.id].push(log)
   },
 }
 
@@ -29,7 +30,11 @@ const actions = {
     listWorkflows()
   },
   setWorkflows({ commit }, workflows) {
-    commit('SET_WORKFLOWS', workflows)
+    let data = workflows.reduce((acc, workflow) => {
+      acc[workflow.workflowId] = workflow
+      return acc
+    }, {})
+    commit('SET_WORKFLOWS', data)
   },
   updateWorkFlow({ commit }, workflow) {
     return new Promise((resolve, reject) => {
@@ -56,6 +61,14 @@ const actions = {
     if (workflow.workflowId) {
       commit('UPDATE_WORKFLOW', { ...workflow, executing: true })
       executeWorkflow(workflow)
+    }
+  },
+  reportLog({ commit, state }, log) {
+    if (log.id) {
+      commit('ADD_LOG', log)
+      if (log.isDestroyed) {
+        commit('UPDATE_WORKFLOW', { ...state.workflows[log.id], executing: false })
+      }
     }
   },
 }

@@ -32,7 +32,7 @@ ipcMain.on('delWorkflow', (event, arg) => {
 
 ipcMain.on('executeWorkflow', async (event, arg) => {
   try {
-    const engine = workflowEngine(JSON.parse(arg), event, {})
+    const engine = workflowEngine(JSON.parse(arg), {})
     engine.init()
     runningWorkflows[engine.id] = engine
     engine.on('destroyed', ({ id }) => {

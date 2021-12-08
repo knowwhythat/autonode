@@ -8,19 +8,10 @@ const getters = {
   singleRoutes: state => state.user.singleRoutes,
   activeRoute: state => state.user.activeRoute,
   skinChoose: state => state.settings.skinChoose,
-  getWorkflowState: state => id =>
-    (state.workflow.workflowState || []).filter(
-      ({ workflowId }) => workflowId === id
-    ),
-  getWorkflow: state => id =>
-    (state.workflow.workflows || []).find(
-      ({ workflowId }) => workflowId === id
-    ),
+  getWorkflow: state => id => state.workflow.workflows[id],
   getWorkflows: state => (name, sortBy, sortOrder) =>
     orderBy(
-      (state.workflow.workflows || []).filter(workflow =>
-        workflow.name.toLocaleLowerCase().includes(name.toLocaleLowerCase())
-      ),
+      (Object.values(state.workflow.workflows) || []).filter(workflow => workflow.name.toLocaleLowerCase().includes(name.toLocaleLowerCase())),
       sortBy,
       sortOrder
     ),

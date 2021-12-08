@@ -10,7 +10,7 @@ if (!app.requestSingleInstanceLock()) {
   process.exit(0)
 }
 
-let win = null
+export let win = null
 
 async function bootstrap() {
   win = new BrowserWindow({

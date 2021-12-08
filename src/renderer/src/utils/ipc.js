@@ -1,6 +1,6 @@
 export function init(store) {
-  window.ipcRenderer.on('fromMain', (event, data) => {
-    console.log(data)
+  window.ipcRenderer.on('workflowLog', (event, data) => {
+    store.dispatch('workflow/reportLog', data)
   })
   listWorkflows().then(data => {
     store.dispatch('workflow/setWorkflows', data)

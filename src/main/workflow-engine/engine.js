@@ -1,3 +1,4 @@
+import { win } from '..'
 import { tasks } from './shared'
 import { parseJSON } from '../utils/helper'
 import { camelCase } from 'lodash'
@@ -51,13 +52,11 @@ function tabUpdatedHandler(tabId, changeInfo, tab) {
 }
 
 class WorkflowEngine {
-  constructor(workflow, event, { globalData, tabId = null, blocksHandler, isInCollection, collectionLogId }) {
+  constructor(workflow, { globalData, blocksHandler, isInCollection, collectionLogId }) {
     const globalDataVal = globalData || workflow.globalData
 
     this.id = workflow.workflowId
-    this.tabId = tabId
     this.workflow = workflow
-    this.event = event
     this.blocksHandler = blocksHandler
     this.browser = null
     this.context = null
@@ -67,7 +66,6 @@ class WorkflowEngine {
     this.globalData = parseJSON(globalDataVal, globalDataVal)
     this.activeTabUrl = ''
     this.data = {}
-    this.logs = []
     this.blocks = {}
     this.frames = {}
     this.loopList = {}
@@ -77,8 +75,6 @@ class WorkflowEngine {
     this.isPaused = false
     this.isDestroyed = false
     this.frameId = null
-    this.windowId = null
-    this.tabGroupId = null
     this.currentBlock = null
     this.workflowTimeout = null
 
@@ -94,15 +90,14 @@ class WorkflowEngine {
     const blocks = drawflowData?.drawflow.Home.data
 
     if (!blocks) {
-      this.event.sender.send('executeWorkflow', { workflowId: this.id, message: 'no-block' })
+      this.reportLog({ type: 'failed', message: 'no-block' })
       return
     }
-    console.log(blocks)
     const blocksArr = Object.values(blocks)
     const triggerBlock = blocksArr.find(({ name }) => name === 'trigger')
 
     if (!triggerBlock) {
-      this.event.sender.send('executeWorkflow', { workflowId: this.id, message: 'no-trigger-block' })
+      this.reportLog({ type: 'failed', message: 'no-trigger-block' })
       return
     }
 
@@ -114,12 +109,10 @@ class WorkflowEngine {
     this.data = dataColumns.reduce(
       (acc, column) => {
         acc[column.name] = []
-
         return acc
       },
       { column: [] }
     )
-
     this._blockHandler(triggerBlock)
   }
 
@@ -129,16 +122,10 @@ class WorkflowEngine {
 
   pause(pause = true) {
     this.isPaused = pause
-    this.event.sender.send('executeWorkflow', this.state)
   }
 
   stop(message) {
-    this.logs.push({
-      message,
-      type: 'stop',
-      name: 'stop',
-    })
-    this.destroy('stopped')
+    this.destroy('stopped', message)
   }
 
   async destroy(status, message) {
@@ -151,7 +138,7 @@ class WorkflowEngine {
       clearTimeout(this.workflowTimeout)
       this.isDestroyed = true
       this.endedTimestamp = Date.now()
-      this.event.sender.send('executeWorkflow', this.state)
+      this.reportLog()
     } catch (error) {
       console.error(error)
     }
@@ -168,10 +155,9 @@ class WorkflowEngine {
   }
 
   get state() {
-    const keys = ['id', 'tabId', 'isPaused', 'isDestroyed', 'currentBlock', 'isInCollection', 'startedTimestamp']
+    const keys = ['id', 'isPaused', 'isDestroyed', 'currentBlock', 'isInCollection', 'startedTimestamp']
     const state = keys.reduce((acc, key) => {
       acc[key] = this[key]
-
       return acc
     }, {})
     state.name = this.workflow.name
@@ -199,7 +185,6 @@ class WorkflowEngine {
 
     this.currentBlock = block
 
-    this.event.sender.send('executeWorkflow', this.state)
     this.dispatchEvent('update', this.state)
 
     const started = Date.now()
@@ -214,36 +199,20 @@ class WorkflowEngine {
         globalData: this.globalData,
         activeTabUrl: this.activeTabUrl,
       })
-
+      this.reportLog()
       handler
         .call(this, replacedBlock, prevBlockData)
         .then(result => {
           clearTimeout(this.workflowTimeout)
           this.workflowTimeout = null
-          this.logs.push({
-            type: 'success',
-            name: block.name,
-            duration: Math.round(Date.now() - started),
-          })
-
           if (result.nextBlockId) {
             this._blockHandler(this.blocks[result.nextBlockId], result.data)
           } else {
-            this.logs.push({
-              type: 'finish',
-              name: 'finish',
-            })
             this.dispatchEvent('finish')
             this.destroy('success')
           }
         })
         .catch(error => {
-          this.logs.push({
-            type: 'error',
-            message: error.message,
-            name: block.name,
-          })
-
           if (this.workflow.settings.onError === 'keep-running' && error.nextBlockId) {
             this._blockHandler(this.blocks[error.nextBlockId], error.data || '')
           } else {
@@ -252,10 +221,11 @@ class WorkflowEngine {
 
           clearTimeout(this.workflowTimeout)
           this.workflowTimeout = null
-
           console.error(error)
+          this.reportLog({ type: 'failed', message: error.message })
         })
     } else {
+      this.reportLog({ type: 'failed', message: `"${block.name}" block doesn't have a handler` })
       console.error(`"${block.name}" block doesn't have a handler`)
     }
   }
@@ -266,6 +236,10 @@ class WorkflowEngine {
       'tab-updated': 'tabUpdatedListeners',
     }
     this[listenerNames[name]][id] = { callback, once, ...options }
+  }
+
+  reportLog(message) {
+    win.webContents.send('workflowLog', { ...this.state, ...message })
   }
 }
 
