@@ -34,9 +34,9 @@ ipcMain.on('executeWorkflow', async (event, arg) => {
   try {
     const engine = workflowEngine(JSON.parse(arg), {})
     engine.init()
-    runningWorkflows[engine.id] = engine
-    engine.on('destroyed', ({ id }) => {
-      delete runningWorkflows[id]
+    runningWorkflows[engine.workflowId] = engine
+    engine.on('destroyed', ({ workflowId }) => {
+      delete runningWorkflows[workflowId]
     })
   } catch (e) {
     console.error(e)
@@ -45,6 +45,6 @@ ipcMain.on('executeWorkflow', async (event, arg) => {
 })
 
 ipcMain.on('stopWorkflow', (event, arg) => {
-  runningWorkflows[id]?.destroy()
-  delete runningWorkflows[id]
+  runningWorkflows[arg]?.destroy()
+  delete runningWorkflows[arg]
 })

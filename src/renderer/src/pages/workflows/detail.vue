@@ -31,7 +31,7 @@
         />
       </keep-alive>
     </div>
-    <el-dialog v-model="state.showDataColumnsModal" title="变量池">
+    <el-dialog v-model="state.showDataColumnsModal" title="全局变量">
       <workflow-data-columns
         v-bind="{ workflow }"
         @update="updateWorkflow"

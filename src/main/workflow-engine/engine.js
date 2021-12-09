@@ -54,8 +54,8 @@ function tabUpdatedHandler(tabId, changeInfo, tab) {
 class WorkflowEngine {
   constructor(workflow, { globalData, blocksHandler, isInCollection, collectionLogId }) {
     const globalDataVal = globalData || workflow.globalData
-
-    this.id = workflow.workflowId
+    this.workflowId = workflow.workflowId
+    this.executionId = workflow.executionId
     this.workflow = workflow
     this.blocksHandler = blocksHandler
     this.browser = null
@@ -130,7 +130,7 @@ class WorkflowEngine {
 
   async destroy(status, message) {
     try {
-      this.dispatchEvent('destroyed', { id: this.id, status, message })
+      this.dispatchEvent('destroyed', { workflowId: this.workflowId, status, message })
 
       this.eventListeners = {}
       this.tabUpdatedListeners = {}
@@ -155,7 +155,7 @@ class WorkflowEngine {
   }
 
   get state() {
-    const keys = ['id', 'isPaused', 'isDestroyed', 'currentBlock', 'isInCollection', 'startedTimestamp']
+    const keys = ['workflowId', 'executionId', 'isPaused', 'isDestroyed', 'currentBlock', 'isInCollection', 'startedTimestamp']
     const state = keys.reduce((acc, key) => {
       acc[key] = this[key]
       return acc
@@ -230,12 +230,12 @@ class WorkflowEngine {
     }
   }
 
-  _listener({ id, name, callback, once = true, ...options }) {
+  _listener({ workflowId, name, callback, once = true, ...options }) {
     const listenerNames = {
       event: 'eventListener',
       'tab-updated': 'tabUpdatedListeners',
     }
-    this[listenerNames[name]][id] = { callback, once, ...options }
+    this[listenerNames[name]][workflowId] = { callback, once, ...options }
   }
 
   reportLog(message) {

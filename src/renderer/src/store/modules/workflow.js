@@ -1,3 +1,4 @@
+import { nanoid } from 'nanoid'
 import { listWorkflows, saveWorkflow, delWorkflow, executeWorkflow } from '@/utils/ipc'
 const state = {
   workflows: {},
@@ -17,11 +18,18 @@ const mutations = {
   UPDATE_WORKFLOW(state, workflow) {
     state.workflows[workflow.workflowId] = workflow
   },
-  ADD_LOG(state, log) {
-    if (!state.logs[log.id]) {
-      state.logs[log.id] = []
+  ADD_LOG_RECORD(state, execution) {
+    const { executionId, name, icon } = execution
+    if (!state.logs[execution.workflowId]) {
+      state.logs[execution.workflowId] = []
     }
-    state.logs[log.id].push(log)
+    state.logs[execution.workflowId].push({ executionId: executionId, name: name, icon: icon, name, icon, startTime: new Date(), logs: [] })
+  },
+  APPEND_LOG(state, log) {
+    if (!state.logs[log.workflowId]) {
+      state.logs[log.workflowId] = []
+    }
+    state.logs[log.workflowId].find(execution => execution.executionId === log.executionId)?.logs.push(log)
   },
 }
 
@@ -60,14 +68,16 @@ const actions = {
   executeWorkflow({ commit }, workflow) {
     if (workflow.workflowId) {
       commit('UPDATE_WORKFLOW', { ...workflow, executing: true })
-      executeWorkflow(workflow)
+      let execution = { ...workflow, executionId: nanoid(32) }
+      commit('ADD_LOG_RECORD', execution)
+      executeWorkflow(execution)
     }
   },
   reportLog({ commit, state }, log) {
-    if (log.id) {
-      commit('ADD_LOG', log)
+    if (log.workflowId) {
+      commit('APPEND_LOG', log)
       if (log.isDestroyed) {
-        commit('UPDATE_WORKFLOW', { ...state.workflows[log.id], executing: false })
+        commit('UPDATE_WORKFLOW', { ...state.workflows[log.workflowId], executing: false })
       }
     }
   },
