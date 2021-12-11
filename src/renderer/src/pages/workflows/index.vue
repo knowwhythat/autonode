@@ -52,9 +52,9 @@
   </div>
 </template>
 <script setup>
-import { shallowReactive, computed } from 'vue';
-import { useStore } from 'vuex';
-import { nanoid } from 'nanoid';
+import { shallowReactive, computed } from 'vue'
+import { useStore } from 'vuex'
+import { nanoid } from 'nanoid'
 import { Search } from '@element-plus/icons'
 import WorkflowCard from '@/components/workflow/WorkflowCard.vue'
 import { exportWorkflow } from '@/utils/helper'

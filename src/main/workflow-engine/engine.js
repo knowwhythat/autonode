@@ -1,5 +1,5 @@
 import { win } from '..'
-import { tasks } from './shared'
+import { tasks } from '../../renderer/src/utils/shared'
 import { parseJSON } from '../utils/helper'
 import { camelCase } from 'lodash'
 import referenceData from '../utils/reference-data'

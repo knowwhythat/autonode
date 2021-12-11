@@ -12,6 +12,7 @@
         :workflow="workflow"
         :data-changed="state.isDataChanged"
         @save="saveWorkflow"
+        @log="showLogDetail"
         @export="exportWorkflow"
         @execute="executeWorkflow"
         @update="updateWorkflow"
@@ -41,6 +42,9 @@
     <el-dialog v-model="state.showSettings" title="设置">
       <workflow-settings v-bind="{ workflow }" @update="updateWorkflow" />
     </el-dialog>
+    <el-dialog v-model="state.showLog" title="执行日志">
+      <ExecutionLogs :workflowId="workflowId" />
+    </el-dialog>
   </div>
 </template>
 <script setup>
@@ -64,6 +68,7 @@ import WorkflowDataColumns from '@/components/workflow/WorkflowDataColumns.vue';
 import WorkflowSettings from '@/components/workflow/WorkflowSettings.vue';
 import { ElMessageBox, ElMessage } from 'element-plus'
 import { exportWorkflow } from '@/utils/helper'
+import ExecutionLogs from '../logs/index.vue';
 
 const store = useStore();
 const route = useRoute();
@@ -76,6 +81,7 @@ const state = reactive({
   showSettings: false,
   isDataChanged: false,
   showDataColumnsModal: false,
+  showLog: false
 });
 
 const workflow = computed(() => store.getters.getWorkflow(workflowId));
@@ -92,6 +98,10 @@ function saveWorkflow() {
   updateWorkflow({ drawflow: JSON.stringify(data) }).then(() => {
     state.isDataChanged = false;
   });
+}
+
+function showLogDetail() {
+  state.showLog = true
 }
 
 const updateBlockData = debounce((data) => {

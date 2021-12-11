@@ -1,5 +1,6 @@
 export const tasks = {
   trigger: {
+    label: '触发器',
     name: 'Trigger',
     description: 'Block where workflow will start executing',
     icon: 'ri-flashlight-line',
@@ -37,6 +38,7 @@ export const tasks = {
     data: {},
   },
   'new-window': {
+    label: '打开浏览器',
     name: 'New window',
     description: 'Create a new window',
     icon: 'ri-window-2-line',
@@ -56,6 +58,7 @@ export const tasks = {
     },
   },
   'new-tab': {
+    label: '新建Tab页',
     name: 'New tab',
     description: 'Create a new tab',
     icon: 'ri-global-line',
@@ -384,18 +387,22 @@ export const tasks = {
 
 export const categories = {
   interaction: {
+    label: 'web交互',
     name: 'Web interaction',
     color: 'bg-green-200',
   },
   browser: {
+    label: '浏览器组件',
     name: 'Browser',
     color: 'bg-orange-200',
   },
   general: {
+    label: '通用组件',
     name: 'General',
     color: 'bg-yellow-200',
   },
   conditions: {
+    label: '条件',
     name: 'Conditions',
     color: 'bg-blue-200',
   },

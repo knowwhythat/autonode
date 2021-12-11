@@ -24,7 +24,7 @@
     >{{ workflow.name }}</p>
   </div>
   <div class="flex px-4 mt-2 space-x-2">
-    <el-button class="flex-1 relative" type="primary" @click="$emit('save')">
+    <el-button class="relative" type="primary" @click="$emit('save')">
       <span v-if="dataChanged" class="flex h-3 w-3 absolute top-0 left-0 -ml-1 -mt-1">
         <span
           class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"
@@ -33,10 +33,13 @@
       </span>
       <i class="ri-save-3-line" />保存
     </el-button>
-    <el-button class="operate-button" type="danger" @click="$emit('execute')">
+    <el-button type="danger" @click="$emit('execute')">
       <i class="ri-play-line"></i>
     </el-button>
-    <el-dropdown class="operate-button" @command="handleCommand">
+    <el-button type="info" @click="$emit('log')">
+      <i class="ri-history-line"></i>
+    </el-button>
+    <el-dropdown @command="handleCommand">
       <el-button>
         <i class="ri-more-2-line"></i>
       </el-button>
@@ -55,7 +58,7 @@
     <template v-for="(items, catId) in taskList" :key="catId">
       <div class="flex items-center top-0 space-x-2 mb-2">
         <span :class="categories[catId].color" class="h-3 w-3 rounded-full"></span>
-        <p class="capitalize">{{ categories[catId].name }}</p>
+        <p class="capitalize">{{ categories[catId].label || categories[catId].name }}</p>
       </div>
       <div class="grid grid-cols-2 gap-2 mb-4">
         <div
@@ -69,7 +72,7 @@
           "
         >
           <i :class="block.icon" class="ri-2x mb-2" />
-          <p class="leading-tight text-overflow">{{ block.name }}</p>
+          <p class="leading-tight text-overflow">{{ block.label || block.name }}</p>
         </div>
       </div>
     </template>
@@ -91,6 +94,7 @@ const props = defineProps({
 
 const emit = defineEmits([
   'save',
+  'log',
   'export',
   'update',
   'rename',
