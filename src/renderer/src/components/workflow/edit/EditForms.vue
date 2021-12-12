@@ -1,29 +1,19 @@
 <template>
-  <edit-interaction-base v-model:data="state">
-    <el-select v-model="state.type" class="block w-full mt-4 mb-3" placeholder="Form type">
-      <el-option v-for="form in forms" :key="form.id" :value="form.id" :label="form.name"></el-option>
-    </el-select>
-    <el-checkbox
-      v-if="state.type === 'checkbox' || state.type === 'radio'"
-      v-model="state.selected"
-    >Selected</el-checkbox>
-    <el-input
-      type="textarea"
-      v-if="state.type === 'text-field' || state.type === 'select'"
-      v-model="state.value"
-      placeholder="Value"
-      class="w-full"
-    />
-    <el-input
-      v-if="state.type === 'text-field'"
-      v-model="state.delay"
-      title="Typing delay (millisecond)(0 to disable)"
-      placeholder="Delay"
-      class="w-full mt-2"
-      min="0"
-      type="number"
-    />
-  </edit-interaction-base>
+  <el-form :model="data" label-position="top">
+    <edit-interaction-base v-model:data="state">
+      <el-form-item label="表单类型">
+        <el-select v-model="state.type" class="block w-full" placeholder="Form type">
+          <el-option v-for="form in forms" :key="form.id" :value="form.id" :label="form.name"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="是否选中" v-if="state.type === 'checkbox' || state.type === 'radio'">
+        <el-checkbox v-model="state.selected">Selected</el-checkbox>
+      </el-form-item>
+      <el-form-item label="填充内容" v-if="state.type === 'text-field' || state.type === 'select'">
+        <el-input type="textarea" v-model="state.value" placeholder="Value" class="w-full" />
+      </el-form-item>
+    </edit-interaction-base>
+  </el-form>
 </template>
 <script setup>
 import { ref, watch } from 'vue';

@@ -6,7 +6,7 @@
         <span>Export data</span>
       </div>
       <div class="flex-grow"></div>
-      <i class="ri-delete-bin-7-line" @click="editor.removeNodeId(`node-${block.id}`)" />
+      <i class="ri-delete-bin-7-line ri-lg" @click="editor.removeNodeId(`node-${block.id}`)" />
     </div>
     <input
       v-model="block.data.name"

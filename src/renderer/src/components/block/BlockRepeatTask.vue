@@ -6,7 +6,7 @@
         <span>Repeat task</span>
       </div>
       <div class="flex-grow"></div>
-      <i class="ri-delete-bin-7-line" @click="editor.removeNodeId(`node-${block.id}`)" />
+      <i class="ri-delete-bin-7-line ri-lg" @click="editor.removeNodeId(`node-${block.id}`)" />
     </div>
     <label class="mb-2 block bg-input focus-within:bg-input pr-4 transition rounded-lg">
       <input

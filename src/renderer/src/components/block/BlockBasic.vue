@@ -11,7 +11,9 @@
       <i :class="block.details.icon || 'ri-global-line'" class="ri-lg" />
     </span>
     <div style="max-width: 200px">
-      <p class="font-semibold leading-none whitespace-nowrap">{{ block.details.name }}</p>
+      <p
+        class="font-semibold leading-none whitespace-nowrap"
+      >{{ block.details.label || block.details.name }}</p>
       <p class="text-gray-600 text-overflow leading-tight">{{ block.data.description }}</p>
       <el-input type="text" class="hidden trigger" disabled @change="handleDataChange" />
     </div>

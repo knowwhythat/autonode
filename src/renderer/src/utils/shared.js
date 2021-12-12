@@ -53,8 +53,13 @@ export const tasks = {
       description: '',
       forceNew: false,
       browser: 1,
+      browserType: 'chrome',
       executablePath: '',
       headless: false,
+      useProxy: false,
+      proxyUrl: '',
+      proxyUserName: '',
+      proxyPassword: '',
     },
   },
   'new-tab': {
@@ -151,6 +156,7 @@ export const tasks = {
     },
   },
   delay: {
+    label: '延迟',
     name: 'Delay',
     description: 'Add delay before executing the next block',
     icon: 'ri-timer-line',
@@ -265,6 +271,7 @@ export const tasks = {
     },
   },
   forms: {
+    label: '表单',
     name: 'Forms',
     icon: 'ri-input-cursor-move',
     description: 'Manipulate form(input, select, checkbox, and radio) element',

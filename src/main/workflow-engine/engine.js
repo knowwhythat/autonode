@@ -90,14 +90,14 @@ class WorkflowEngine {
     const blocks = drawflowData?.drawflow.Home.data
 
     if (!blocks) {
-      this.reportLog({ type: 'failed', message: 'no-block' })
+      this.reportLog({ isFailed: true, message: 'no-block' })
       return
     }
     const blocksArr = Object.values(blocks)
     const triggerBlock = blocksArr.find(({ name }) => name === 'trigger')
 
     if (!triggerBlock) {
-      this.reportLog({ type: 'failed', message: 'no-trigger-block' })
+      this.reportLog({ isFailed: true, message: 'no-trigger-block' })
       return
     }
 
@@ -155,13 +155,11 @@ class WorkflowEngine {
   }
 
   get state() {
-    const keys = ['workflowId', 'executionId', 'isPaused', 'isDestroyed', 'currentBlock', 'isInCollection', 'startedTimestamp']
+    const keys = ['workflowId', 'executionId', 'isPaused', 'isDestroyed', 'currentBlock']
     const state = keys.reduce((acc, key) => {
       acc[key] = this[key]
       return acc
     }, {})
-    state.name = this.workflow.name
-    state.icon = this.workflow.icon
     return state
   }
 
@@ -199,10 +197,10 @@ class WorkflowEngine {
         globalData: this.globalData,
         activeTabUrl: this.activeTabUrl,
       })
-      this.reportLog()
       handler
         .call(this, replacedBlock, prevBlockData)
         .then(result => {
+          this.reportLog({ duration: Math.round(Date.now() - started) })
           clearTimeout(this.workflowTimeout)
           this.workflowTimeout = null
           if (result.nextBlockId) {
@@ -222,10 +220,10 @@ class WorkflowEngine {
           clearTimeout(this.workflowTimeout)
           this.workflowTimeout = null
           console.error(error)
-          this.reportLog({ type: 'failed', message: error.message })
+          this.reportLog({ isFailed: true, message: error.message })
         })
     } else {
-      this.reportLog({ type: 'failed', message: `"${block.name}" block doesn't have a handler` })
+      this.reportLog({ isFailed: true, message: `"${block.name}" block doesn't have a handler` })
       console.error(`"${block.name}" block doesn't have a handler`)
     }
   }

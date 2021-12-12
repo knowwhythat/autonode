@@ -59,3 +59,9 @@ select:focus,
     @apply bg-black bg-opacity-5 dark:bg-gray-200 dark:bg-opacity-5;
   }
 }
+.el-form--label-top .el-form-item__label {
+  padding: 0;
+}
+.el-form-item {
+  margin-bottom: 0;
+}

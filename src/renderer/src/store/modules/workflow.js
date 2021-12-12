@@ -23,13 +23,35 @@ const mutations = {
     if (!state.logs[execution.workflowId]) {
       state.logs[execution.workflowId] = []
     }
-    state.logs[execution.workflowId].push({ executionId: executionId, name: name, icon: icon, name, icon, startTime: new Date(), logs: [] })
+    state.logs[execution.workflowId].push({
+      executionId: executionId,
+      name: name,
+      icon: icon,
+      name,
+      icon,
+      status: 'executing',
+      startTime: new Date(),
+      duration: null,
+      logs: [],
+    })
   },
   APPEND_LOG(state, log) {
     if (!state.logs[log.workflowId]) {
       state.logs[log.workflowId] = []
     }
-    state.logs[log.workflowId].find(execution => execution.executionId === log.executionId)?.logs.push(log)
+    let execution = state.logs[log.workflowId].find(execution => execution.executionId === log.executionId)
+    if (log.isDestroyed) {
+      execution.status = 'success'
+      execution.duration = Math.round(Date.now() - execution.startTime)
+    }
+    if (log.isPaused) {
+      execution.status = 'pause'
+    }
+    if (log.isFailed) {
+      execution.status = 'fail'
+      execution.duration = Math.round(Date.now() - execution.startTime)
+    }
+    execution.logs.push(log)
   },
 }
 

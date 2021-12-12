@@ -6,7 +6,7 @@
         <span>conditions</span>
       </div>
       <div class="flex-grow"></div>
-      <i class="ri-delete-bin-7-line ri-2x" @click="editor.removeNodeId(`node-${block.id}`)" />
+      <i class="ri-delete-bin-7-line ri-lg" @click="editor.removeNodeId(`node-${block.id}`)" />
       <i
         class="ri-add-line ri-2x"
         :disabled="block.data.conditions && block.data.conditions.length > 4"

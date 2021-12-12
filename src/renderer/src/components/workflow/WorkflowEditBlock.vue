@@ -1,6 +1,6 @@
 <template>
   <div class="px-4 overflow-auto scroll pb-1">
-    <div class="flex items-center sticky top-0 z-20 bg-white border-b border-gray-100 pb-4 mb-4">
+    <div class="flex items-center sticky top-0 z-20 bg-white border-b border-gray-100 mb-1">
       <button class="mr-2 align-middle" @click="$emit('close')">
         <i class="ri-arrow-left-line ri-2x" />
       </button>
