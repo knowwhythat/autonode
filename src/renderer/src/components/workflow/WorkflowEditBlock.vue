@@ -4,7 +4,7 @@
       <button class="mr-2 align-middle" @click="$emit('close')">
         <i class="ri-arrow-left-line ri-2x" />
       </button>
-      <p class="font-semibold inline-block align-middle">{{ data.name }}</p>
+      <p class="font-semibold inline-block align-middle">{{ data.label || data.name }}</p>
     </div>
     <component :is="data.editComponent" v-if="blockData" v-model:data="blockData" />
   </div>

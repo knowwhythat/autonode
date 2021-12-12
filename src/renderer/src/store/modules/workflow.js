@@ -43,6 +43,8 @@ const mutations = {
     if (log.isDestroyed) {
       execution.status = 'success'
       execution.duration = Math.round(Date.now() - execution.startTime)
+    } else {
+      execution.logs.push(log)
     }
     if (log.isPaused) {
       execution.status = 'pause'
@@ -51,7 +53,6 @@ const mutations = {
       execution.status = 'fail'
       execution.duration = Math.round(Date.now() - execution.startTime)
     }
-    execution.logs.push(log)
   },
 }
 

@@ -2,7 +2,7 @@
   <div :id="componentId" class="p-4">
     <div class="flex items-center mb-2">
       <div :class="block.category.color" class="inline-block text-sm mr-4 p-2 rounded-lg">
-        <i class="ri-global-line" />
+        <i class="ri-global-line ri-lg" />
         <span>{{ block.details.name }}</span>
       </div>
       <div class="flex-grow"></div>

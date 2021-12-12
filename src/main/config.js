@@ -4,7 +4,8 @@ import { getUserConfig } from './utils/file'
 
 const user_config = 'user_config.json'
 const base_path = 'userData'
-const basePath = app.getPath(base_path)
+export const basePath = app.getPath(base_path)
+export const downloadsPath = app.getPath('downloads')
 const userConfigPath = basePath + path.sep + user_config
 const workflowPath = basePath + path.sep + 'workflows'
 

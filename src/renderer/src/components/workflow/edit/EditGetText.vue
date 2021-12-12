@@ -1,33 +1,31 @@
 <template>
   <edit-interaction-base v-bind="{ data }" @change="updateData">
-    <div class="flex rounded-lg bg-input px-4 items-center transition mt-2">
-      <span>/</span>
-      <input
-        :value="data.regex"
-        placeholder="Regex"
-        class="w-11/12 bg-transparent p-2 focus:ring-0"
-        @change="updateData({ regex: $event.target.value })"
-      />
-      <el-popover>
-        <template #reference>
-          <button>/{{ regexExp.join('') }}</button>
-        </template>
-        <p class="mb-2 text-gray-600 dark:text-gray-200">Expression flags</p>
-        <div class="space-y-1">
-          <div v-for="item in exps" :key="item.id">
-            <el-checkbox
-              :model-value="regexExp.includes(item.id)"
-              @change="handleExpCheckbox(item.id, $event)"
-            >{{ item.name }}</el-checkbox>
+    <el-form-item label="取值正则表达式">
+      <div class="flex rounded-lg bg-input px-4 items-center transition">
+        <span>/</span>
+        <input
+          :value="data.regex"
+          placeholder="Regex"
+          class="w-11/12 bg-transparent p-2 focus:ring-0"
+          @change="updateData({ regex: $event.target.value })"
+        />
+        <el-popover>
+          <template #reference>
+            <button>/{{ regexExp.join('') }}</button>
+          </template>
+          <p class="mb-2 text-gray-600 dark:text-gray-200">选项</p>
+          <div class="space-y-1">
+            <div v-for="item in exps" :key="item.id">
+              <el-checkbox
+                :model-value="regexExp.includes(item.id)"
+                @change="handleExpCheckbox(item.id, $event)"
+              >{{ item.name }}</el-checkbox>
+            </div>
           </div>
-        </div>
-      </el-popover>
-    </div>
-    <el-checkbox
-      v-model="data.saveData"
-      class="mt-3"
-      @change="updateData({ saveData: $event })"
-    >Save data</el-checkbox>
+        </el-popover>
+      </div>
+    </el-form-item>
+    <el-checkbox v-model="data.saveData" @change="updateData({ saveData: $event })">保存数据</el-checkbox>
     <div v-if="data.saveData" class="flex items-center mt-1">
       <el-select
         v-model="data.dataColumn"
