@@ -1,5 +1,5 @@
 <template>
-  <div class="ym-body">
+  <div class="relative w-full h-full">
     <el-config-provider :locale="language == 'en' ? enLocale : zhLocale">
       <el-container style="height: 100%">
         <asideLayout />
@@ -96,12 +96,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.ym-body {
-  position: relative;
-  height: 100%;
-  width: 100%;
-}
-
 .el-main {
   background-color: #e9eef3;
 }

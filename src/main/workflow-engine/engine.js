@@ -136,9 +136,13 @@ class WorkflowEngine {
       this.tabUpdatedListeners = {}
 
       clearTimeout(this.workflowTimeout)
+      await this.browser.close()
+      this.browser = null
+      this.page = null
+      this.context = null
       this.isDestroyed = true
       this.endedTimestamp = Date.now()
-      this.reportLog()
+      this.reportLog({ isFailed: status === 'error', message: message })
     } catch (error) {
       console.error(error)
     }
@@ -211,6 +215,7 @@ class WorkflowEngine {
           }
         })
         .catch(error => {
+          this.reportLog({ isFailed: true, message: error.message })
           if (this.workflow.settings.onError === 'keep-running' && error.nextBlockId) {
             this._blockHandler(this.blocks[error.nextBlockId], error.data || '')
           } else {
@@ -220,7 +225,6 @@ class WorkflowEngine {
           clearTimeout(this.workflowTimeout)
           this.workflowTimeout = null
           console.error(error)
-          this.reportLog({ isFailed: true, message: error.message })
         })
     } else {
       this.reportLog({ isFailed: true, message: `"${block.name}" block doesn't have a handler` })
