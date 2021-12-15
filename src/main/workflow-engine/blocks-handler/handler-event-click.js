@@ -1,5 +1,5 @@
 import { getBlockConnection } from '../helper'
-async function forms(block, prevBlockData) {
+async function eventClick(block, prevBlockData) {
   const { selector } = block.data
   this.page.click(selector)
   return {
@@ -8,4 +8,4 @@ async function forms(block, prevBlockData) {
   }
 }
 
-export default forms
+export default eventClick

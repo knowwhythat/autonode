@@ -31,7 +31,7 @@ async function forms(block, prevBlockData) {
   }
 
   return {
-    data: value,
+    data: '',
     nextBlockId: getBlockConnection(block),
   }
 }

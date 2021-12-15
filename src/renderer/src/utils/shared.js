@@ -264,25 +264,14 @@ export const tasks = {
       repeatFor: 1,
     },
   },
-  // 'reload-page': {
-  //   name: 'Reload page',
-  //   icon: 'riRestartLine',
-  //   component: 'BlockBasic',
-  //   category: 'interaction',
-  //   inputs: 1,
-  //   outputs: 1,
-  //   allowedInputs: true,
-  //   maxConnection: 1,
-  //   disableEdit: true,
-  //   data: {},
-  // },
   'javascript-code': {
+    label: 'JavaScript代码',
     name: 'JavaScript code',
     description: 'Execute your custom javascript code in a webpage',
     icon: 'ri-code-s-slash-line',
     component: 'BlockBasic',
     editComponent: 'EditJavascriptCode',
-    category: 'interaction',
+    category: 'browser',
     inputs: 1,
     outputs: 1,
     allowedInputs: true,
@@ -290,7 +279,12 @@ export const tasks = {
     data: {
       description: '',
       timeout: 10000,
-      code: 'console.log("Hello world!")',
+      code: `(async (page) => {
+    console.log(page);
+    content = await page.content()
+    let a = 1;
+    return content;
+  })`,
     },
   },
   'trigger-event': {

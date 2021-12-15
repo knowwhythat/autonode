@@ -1,6 +1,6 @@
 import { getBlockConnection, convertData } from '../helper'
 
-async function takeScreenshot(block, prevBlockData) {
+async function getText(block, prevBlockData) {
   let regex
   const { regex: regexData, regexExp, prefixText, suffixText, multiple, selector, saveData, dataColumn } = block.data
   const textResult = []
@@ -33,4 +33,4 @@ async function takeScreenshot(block, prevBlockData) {
   }
 }
 
-export default takeScreenshot
+export default getText

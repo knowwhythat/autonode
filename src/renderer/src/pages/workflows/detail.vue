@@ -114,7 +114,7 @@ const updateBlockData = debounce((data) => {
   );
 
   if (inputEl) inputEl.dispatchEvent(new Event('change'));
-}, 250);
+}, 150);
 function executeWorkflow() {
   if (editor.value.getNodesFromName('trigger').length === 0) {
     ElMessage({

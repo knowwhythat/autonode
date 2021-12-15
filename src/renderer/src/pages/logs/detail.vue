@@ -4,7 +4,14 @@
     <el-table-column prop="duration" label="耗时" :formatter="formatDuration" />
     <el-table-column prop="status" label="状态">
       <template #default="scope">
-        <el-tag effect="dark" type="danger" v-if="scope.row.isFailed">失败</el-tag>
+        <el-tooltip
+          v-if="scope.row.isFailed"
+          effect="dark"
+          :content="scope.row.message"
+          placement="right"
+        >
+          <el-tag effect="dark" type="danger">失败</el-tag>
+        </el-tooltip>
         <el-tag effect="dark" type="info" v-else-if="scope.row.isPaused">暂停</el-tag>
         <el-tag effect="dark" type="success" v-else="scope.row.isDestroyed">成功</el-tag>
       </template>

@@ -28,6 +28,5 @@ export function useEditorBlock(selector, editor) {
       editor.updateConnectionNodes(`node-${block.id}`)
     }, 200)
   })
-
   return block
 }

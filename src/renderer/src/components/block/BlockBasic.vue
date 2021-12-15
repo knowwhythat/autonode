@@ -33,7 +33,7 @@ const props = defineProps({
 });
 
 const componentId = useComponentId('block-base');
-const block = useEditorBlock(`#${componentId}`, props.editor);
+let block = useEditorBlock(`#${componentId}`, props.editor);
 
 function editBlock() {
   emitter.emit('editor:edit-block', {

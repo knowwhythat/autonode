@@ -215,7 +215,7 @@ class WorkflowEngine {
           }
         })
         .catch(error => {
-          this.reportLog({ isFailed: true, message: error.message })
+          this.reportLog({ isFailed: true, duration: Math.round(Date.now() - started), message: error.message })
           if (this.workflow.settings.onError === 'keep-running' && error.nextBlockId) {
             this._blockHandler(this.blocks[error.nextBlockId], error.data || '')
           } else {

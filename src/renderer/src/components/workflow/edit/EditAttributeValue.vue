@@ -2,20 +2,20 @@
   <edit-interaction-base v-bind="{ data }" @change="updateData">
     <el-form-item label="属性名称">
       <el-input
-        :model-value="data.attributeName"
+        v-model="data.attributeName"
         placeholder="Attribute name"
         class="w-full"
         @change="updateData({ attributeName: $event })"
       />
     </el-form-item>
     <el-checkbox
-      :model-value="data.saveData"
+      v-model="data.saveData"
       class="mt-3"
       @change="updateData({ saveData: $event })"
     >Save data</el-checkbox>
     <div v-if="data.saveData" class="flex items-center mt-1">
       <el-select
-        :model-value="data.dataColumn"
+        v-model="data.dataColumn"
         placeholder="Data column"
         class="mr-2 flex-1"
         @change="updateData({ dataColumn: $event })"
