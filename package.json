@@ -24,7 +24,7 @@
     "prismjs": "^1.25.0",
     "remixicon": "^2.5.0",
     "screenfull": "^5.1.0",
-    "tailwindcss": "^2.2.19",
+    "tailwindcss": "^3.0.5",
     "tiny-emitter": "^2.1.0",
     "vue": "^3.2.22",
     "vue-prism-editor": "^2.0.0-alpha.2",
@@ -37,7 +37,7 @@
     "chalk": "^4.1.2",
     "electron": "^16.0.4",
     "electron-builder": "^22.13.1",
-    "postcss": "^8.4.1",
+    "postcss": "^8.4.5",
     "sass": "^1.39.0",
     "typescript": "^4.4.4",
     "vite": "^2.6.14"
