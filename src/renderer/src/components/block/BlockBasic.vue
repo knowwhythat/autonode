@@ -15,7 +15,7 @@
         class="font-semibold leading-none whitespace-nowrap"
       >{{ block.details.label || block.details.name }}</p>
       <p class="text-gray-600 text-overflow leading-tight">{{ block.data.description }}</p>
-      <el-input type="text" class="hidden trigger" disabled @change="handleDataChange" />
+      <input type="text" class="hidden trigger" disabled @change="handleDataChange" />
     </div>
   </block-base>
 </template>

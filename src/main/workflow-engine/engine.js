@@ -3,7 +3,6 @@ import { tasks } from '../../renderer/src/utils/shared'
 import { parseJSON } from '../utils/helper'
 import { camelCase } from 'lodash'
 import referenceData from '../utils/reference-data'
-import executeContentScript from '../utils/execute-content-script'
 
 let reloadTimeout
 
@@ -31,23 +30,6 @@ function tabUpdatedHandler(tabId, changeInfo, tab) {
     }
 
     this.isPaused = true
-
-    if (changeInfo.status === 'complete') {
-      clearTimeout(reloadTimeout)
-      reloadTimeout = null
-
-      executeContentScript(tabId, 'update tab')
-        .then(frames => {
-          this.tabId = tabId
-          this.frames = frames
-          this.isPaused = false
-          this.activeTabUrl = tab?.url || ''
-        })
-        .catch(error => {
-          console.error(error)
-          this.isPaused = false
-        })
-    }
   }
 }
 
