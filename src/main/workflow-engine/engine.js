@@ -172,8 +172,7 @@ class WorkflowEngine {
     this.dispatchEvent('update', this.state)
 
     const started = Date.now()
-    const blockHandler = this.blocksHandler[camelCase(block?.name)]
-    const handler = !blockHandler && tasks[block.name].category === 'interaction' ? this.blocksHandler.interactionHandler : blockHandler
+    const handler = this.blocksHandler[camelCase(block?.name)]
 
     if (handler) {
       const replacedBlock = referenceData(block, {

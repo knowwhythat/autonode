@@ -7,22 +7,25 @@
         @update="updateBlockData"
         @close="(state.isEditBlock = false), (state.blockData = {})"
       />
-      <workflow-details-card
-        v-else
-        :workflow="workflow"
-        :data-changed="state.isDataChanged"
-        @save="saveWorkflow"
-        @log="showLogDetail"
-        @export="exportWorkflow"
-        @execute="executeWorkflow"
-        @update="updateWorkflow"
-        @showDataColumns="state.showDataColumnsModal = true"
-        @showSettings="state.showSettings = true"
-        @rename="renameWorkflow"
-        @delete="deleteWorkflow"
-      />
+      <workflow-details-card v-else :workflow="workflow" @update="updateWorkflow" />
     </div>
     <div class="flex-1 relative overflow-auto">
+      <div class="absolute w-full flex items-center z-10 left-0 top-0">
+        <WorkflowActions
+          :workflow="workflow"
+          :data-changed="state.isDataChanged"
+          @save="saveWorkflow"
+          @log="showLogDetail"
+          @export="exportWorkflow"
+          @execute="executeWorkflow"
+          @update="updateWorkflow"
+          @showDataColumns="state.showDataColumnsModal = true"
+          @showSettings="state.showSettings = true"
+          @rename="renameWorkflow"
+          @delete="deleteWorkflow"
+        ></WorkflowActions>
+      </div>
+
       <keep-alive>
         <workflow-builder
           class="workflow-designer"
@@ -42,9 +45,9 @@
     <el-dialog v-model="state.showSettings" title="设置">
       <workflow-settings v-bind="{ workflow }" @update="updateWorkflow" />
     </el-dialog>
-    <el-dialog v-model="state.showLog" title="执行日志">
+    <el-drawer v-model="state.showLog" title="执行日志">
       <ExecutionLogs :workflowId="workflowId" />
-    </el-dialog>
+    </el-drawer>
   </div>
 </template>
 <script setup>
@@ -62,6 +65,7 @@ import emitter from 'tiny-emitter/instance';
 import { useRoute, onBeforeRouteLeave } from 'vue-router';
 import { debounce } from 'lodash';
 import WorkflowBuilder from '@/components/workflow/WorkflowBuilder.vue';
+import WorkflowActions from '@/components/workflow/WorkflowActions.vue';
 import WorkflowDetailsCard from '@/components/workflow/WorkflowDetailCard.vue';
 import WorkflowEditBlock from '@/components/workflow/WorkflowEditBlock.vue';
 import WorkflowDataColumns from '@/components/workflow/WorkflowDataColumns.vue';
