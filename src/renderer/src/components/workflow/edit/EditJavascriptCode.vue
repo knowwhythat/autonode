@@ -14,7 +14,7 @@
       <el-form-item label="超时时间">
         <el-input
           type="number"
-          v-model="data.timeout"
+          v-model.number="data.timeout"
           class="w-full"
           placeholder="Timeout"
           title="Javascript code execution timeout"

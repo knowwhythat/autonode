@@ -251,6 +251,7 @@ export const tasks = {
     },
   },
   'repeat-task': {
+    label: '重复任务',
     name: 'Repeat task',
     icon: 'ri-repeat-2-line',
     component: 'BlockRepeatTask',
@@ -279,7 +280,7 @@ export const tasks = {
     data: {
       description: '',
       timeout: 10000,
-      code: `(async (page) => {
+      code: `(async (page,globalData,prevBlockData) => {
     console.log(page);
     content = await page.content()
     let a = 1;

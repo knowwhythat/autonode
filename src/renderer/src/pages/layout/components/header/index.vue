@@ -10,6 +10,7 @@
       </div>
     </div>
     <div class="header-right">
+      <i class="ri-fullscreen-fill" @click="darkMode" :style="{ 'color': skinChoose.navColor }"></i>
       <i class="ri-fullscreen-fill" @click="toScreenfull" :style="{ 'color': skinChoose.navColor }"></i>
       <el-dropdown>
         <span :style="{ 'color': skinChoose.navColor }">
@@ -71,6 +72,14 @@ export default {
     changeShowSet() {
       this.$store.dispatch("app/setShowSet", !this.showSet);
     },
+    darkMode() {
+      const clsList = document.documentElement.classList;
+      if (!clsList.contains('dark-mode')) {
+        document.documentElement.classList.add('dark-mode');
+      } else {
+        document.documentElement.classList.remove('dark-mode')
+      }
+    }
   },
 };
 </script>

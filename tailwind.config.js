@@ -1,4 +1,6 @@
 const colors = require('tailwindcss/colors')
+const plugin = require('tailwindcss/plugin')
+const selectorParser = require('postcss-selector-parser')
 
 module.exports = {
   mode: 'jit',
@@ -27,7 +29,23 @@ module.exports = {
     },
   },
   variants: {
-    extend: {},
+    extend: {
+      backgroundColor: ['dark'],
+      textColor: ['dark'],
+    },
   },
-  plugins: [],
+  plugins: [
+    plugin(function ({ addVariant, prefix, e }) {
+      addVariant('dark', ({ modifySelectors, separator }) => {
+        modifySelectors(({ selector }) => {
+          return selectorParser(selectors => {
+            selectors.walkClasses(sel => {
+              sel.value = `dark${separator}${sel.value}`
+              sel.parent.insertBefore(sel, selectorParser().astSync(prefix('.dark-mode ')))
+            })
+          }).processSync(selector)
+        })
+      })
+    }),
+  ],
 }

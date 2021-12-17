@@ -3,7 +3,7 @@
     <div class="flex items-center mb-2">
       <div :class="block.category.color" class="inline-block text-sm mr-4 p-2 rounded-lg">
         <i class="ri-repeat-2-line" />
-        <span>Repeat task</span>
+        <span>重复任务</span>
       </div>
       <div class="flex-grow"></div>
       <i class="ri-delete-bin-7-line ri-lg" @click="editor.removeNodeId(`node-${block.id}`)" />
@@ -19,7 +19,7 @@
       />
       <span class="text-gray-600">Times</span>
     </label>
-    <p class="text-right text-gray-600">Repeat from</p>
+    <p class="text-right text-gray-600">重复起点</p>
   </div>
 </template>
 <script setup>
