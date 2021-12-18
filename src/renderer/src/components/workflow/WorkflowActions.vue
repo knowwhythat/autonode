@@ -7,13 +7,19 @@
         ></span>
         <span class="relative inline-flex rounded-full h-3 w-3 bg-red-600"></span>
       </span>
-      <i class="ri-save-3-line" />保存
+      <i class="ri-save-3-line ri-lg" />保存
     </el-button>
-    <el-button type="danger" @click="$emit('execute')">
-      <i class="ri-play-line"></i>
+    <el-button type="danger" @click="$emit('execute')" title="执行">
+      <i class="ri-play-line ri-lg"></i>
     </el-button>
-    <el-button type="info" @click="$emit('log')">
-      <i class="ri-history-line"></i>
+    <el-button type="warning" @click="$emit('showDataColumns')" title="变量池">
+      <i class="ri-links-line ri-lg"></i>
+    </el-button>
+    <el-button type="success" @click="$emit('showGlobalData')" title="全局数据">
+      <i class="ri-database-2-line ri-lg"></i>
+    </el-button>
+    <el-button type="info" @click="$emit('log')" title="日志">
+      <i class="ri-history-line ri-lg"></i>
     </el-button>
     <el-dropdown @command="handleCommand">
       <el-button>
@@ -53,6 +59,7 @@ const emit = defineEmits([
   'execute',
   'showSettings',
   'showDataColumns',
+  'showGlobalData',
 ]);
 
 function handleCommand(command) {
@@ -62,7 +69,7 @@ function handleCommand(command) {
 const menus = [
   { name: '重命名', icon: 'ri-edit-box-line', action: 'rename' },
   { name: '导出', icon: 'ri-download-cloud-2-line', action: 'export' },
-  { name: '数据', icon: 'ri-database-2-line', action: 'showDataColumns' },
+  // { name: '变量池', icon: 'ri-database-2-line', action: 'showDataColumns' },
   { name: '设置', icon: 'ri-settings-4-line', action: 'showSettings' },
   { name: '删除', icon: 'ri-delete-bin-5-line', action: 'delete' },
 ]

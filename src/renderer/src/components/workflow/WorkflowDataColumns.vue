@@ -17,7 +17,7 @@
         <el-option v-for="type in dataTypes" :key="type.id" :value="type.id" :label="type.name"></el-option>
       </el-select>
       <button @click="state.columns.splice(index, 1)">
-        <i class="ri-delete-bin-7-line ri-2x" />
+        <i class="ri-delete-bin-7-line ri-2x text-red-600" />
       </button>
     </li>
   </ul>

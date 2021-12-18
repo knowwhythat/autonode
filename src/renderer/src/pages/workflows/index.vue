@@ -113,6 +113,7 @@ export default {
         drawflow: null,
         dataColumns: [],
         settings: {},
+        globalData: [{ "key": "value" }],
         createdAt: null
       },
       rules: {

@@ -20,6 +20,7 @@
           @execute="executeWorkflow"
           @update="updateWorkflow"
           @showDataColumns="state.showDataColumnsModal = true"
+          @showGlobalData="state.showGlobalDataModal = true"
           @showSettings="state.showSettings = true"
           @rename="renameWorkflow"
           @delete="deleteWorkflow"
@@ -35,7 +36,7 @@
         />
       </keep-alive>
     </div>
-    <el-dialog v-model="state.showDataColumnsModal" title="全局变量">
+    <el-dialog v-model="state.showDataColumnsModal" title="变量池">
       <workflow-data-columns
         v-bind="{ workflow }"
         @update="updateWorkflow"
@@ -45,7 +46,10 @@
     <el-dialog v-model="state.showSettings" title="设置">
       <workflow-settings v-bind="{ workflow }" @update="updateWorkflow" />
     </el-dialog>
-    <el-drawer v-model="state.showLog" title="执行日志">
+    <el-dialog v-model="state.showGlobalDataModal" title="全局数据">
+      <workflow-global-data v-bind="{ workflow }" @update="updateWorkflow" />
+    </el-dialog>
+    <el-drawer v-model="state.showLog" size="100%" title="执行日志">
       <ExecutionLogs :workflowId="workflowId" />
     </el-drawer>
   </div>
@@ -70,6 +74,7 @@ import WorkflowDetailsCard from '@/components/workflow/WorkflowDetailCard.vue';
 import WorkflowEditBlock from '@/components/workflow/WorkflowEditBlock.vue';
 import WorkflowDataColumns from '@/components/workflow/WorkflowDataColumns.vue';
 import WorkflowSettings from '@/components/workflow/WorkflowSettings.vue';
+import WorkflowGlobalData from '@/components/workflow/WorkflowGlobalData.vue';
 import { ElMessageBox, ElMessage } from 'element-plus'
 import { exportWorkflow } from '@/utils/helper'
 import ExecutionLogs from '../logs/index.vue';
@@ -85,6 +90,7 @@ const state = reactive({
   showSettings: false,
   isDataChanged: false,
   showDataColumnsModal: false,
+  showGlobalDataModal: false,
   showLog: false
 });
 
