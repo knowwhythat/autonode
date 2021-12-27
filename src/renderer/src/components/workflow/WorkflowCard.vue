@@ -1,5 +1,5 @@
 <template>
-  <el-card shadow="hover">
+  <el-card shadow="hover" class="transition duration-500 hover:-translate-y-1 hover:scale-105">
     <template #header>
       <div class="cursor-pointer" @click="workflowDetail">
         <div class="flex justify-start items-center">

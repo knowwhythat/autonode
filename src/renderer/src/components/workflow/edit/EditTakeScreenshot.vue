@@ -18,7 +18,26 @@
         @change="updateData({ selector: $event })"
       />
     </el-form-item>
-    <el-form-item label="文件名称">
+    <el-checkbox v-model="data.saveData" @change="updateData({ saveData: $event })">保存数据</el-checkbox>
+    <div v-if="data.saveData" class="flex items-center mt-1">
+      <el-select
+        v-model="data.dataColumn"
+        placeholder="Data column"
+        class="mr-2 flex-1"
+        @change="updateData({ dataColumn: $event })"
+      >
+        <el-option
+          v-for="column in workflow.data.value.dataColumns"
+          :key="column.name"
+          :value="column.name"
+          :label="column.name"
+        ></el-option>
+      </el-select>
+      <el-button icon title="Data columns" @click="workflow.showDataColumnsModal(true)">
+        <i class="ri-key-2-line" />
+      </el-button>
+    </div>
+    <el-form-item v-if="!data.saveData" label="文件名称">
       <div class="flex items-center">
         <el-input
           v-model="data.fileName"
@@ -33,23 +52,10 @@
         </el-select>
       </div>
     </el-form-item>
-    <el-form-item label="图片质量">
-      <div class="bg-box-transparent px-4 mb-4 py-2 rounded-lg flex items-center">
-        <input
-          :value="data.quality"
-          title="Image quality"
-          class="focus:outline-none flex-1"
-          type="range"
-          min="0"
-          max="100"
-          @change="updateQuality"
-        />
-        <span class="w-12 text-right">{{ data.quality }}%</span>
-      </div>
-    </el-form-item>
   </el-form>
 </template>
 <script setup>
+import { inject } from 'vue';
 const props = defineProps({
   data: {
     type: Object,
@@ -57,16 +63,9 @@ const props = defineProps({
   },
 });
 const emit = defineEmits(['update:data']);
+const workflow = inject('workflow');
 
 function updateData(value) {
   emit('update:data', { ...props.data, ...value });
-}
-function updateQuality({ target }) {
-  let quality = +target.value;
-
-  if (quality <= 0) quality = 0;
-  if (quality >= 100) quality = 100;
-
-  updateData({ quality });
 }
 </script>

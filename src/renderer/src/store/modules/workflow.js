@@ -13,7 +13,7 @@ const mutations = {
     state.workflows[workflow.workflowId] = workflow
   },
   DEL_WORKFLOW(state, workflow) {
-    state.workflows = delete state.workflows[workflow.workflowId]
+    delete state.workflows[workflow.workflowId]
   },
   UPDATE_WORKFLOW(state, workflow) {
     state.workflows[workflow.workflowId] = workflow

@@ -65,12 +65,12 @@ const componentId = useComponentId('block-conditions');
 const block = useEditorBlock(`#${componentId}`, props.editor);
 
 const conditions = {
-  '==': 'Equals',
-  '>': 'Greater than',
-  '>=': 'Greater than or equal',
-  '<': 'Less than',
-  '<=': 'Less than or equal',
-  '()': 'Contains',
+  '==': '等于',
+  '>': '大于',
+  '>=': '大于等于',
+  '<': '小于',
+  '<=': '小于等于',
+  '()': '保含',
 };
 
 function addComparison() {

@@ -84,7 +84,6 @@ export const tasks = {
       saveData: false,
       fileName: '',
       ext: 'png',
-      quality: 100,
       dataColumn: '',
     },
   },
@@ -161,11 +160,12 @@ export const tasks = {
     },
   },
   'element-scroll': {
+    label: '滚动元素',
     name: 'Scroll element',
     icon: 'ri-mouse-line',
     component: 'BlockBasic',
     editComponent: 'EditScrollElement',
-    category: 'interaction',
+    category: 'browser',
     inputs: 1,
     outputs: 1,
     allowedInputs: true,
@@ -181,24 +181,6 @@ export const tasks = {
       incY: false,
       smooth: false,
       scrollIntoView: false,
-    },
-  },
-  link: {
-    name: 'Link',
-    description: 'Open link element',
-    icon: 'ri-link',
-    component: 'BlockBasic',
-    editComponent: 'EditInteractionBase',
-    category: 'interaction',
-    inputs: 1,
-    outputs: 1,
-    allowedInputs: true,
-    maxConnection: 1,
-    data: {
-      description: '',
-      selector: '',
-      markEl: false,
-      disableMultiple: true,
     },
   },
   'attribute-value': {
@@ -280,21 +262,22 @@ export const tasks = {
     data: {
       description: '',
       timeout: 10000,
-      code: `(async (page,globalData,prevBlockData) => {
-    console.log(page);
-    content = await page.content()
-    let a = 1;
-    return content;
-  })`,
+      code: `(async (page, globalData, prevBlockData) => {
+  console.log(page);
+  content = await page.content()
+  let a = 1;
+  return content;
+})`,
     },
   },
   'trigger-event': {
+    label: '触发事件',
     name: 'Trigger event',
     description: 'Trigger event',
     icon: 'ri-lightbulb-flash-line',
     component: 'BlockBasic',
     editComponent: 'EditTriggerEvent',
-    category: 'interaction',
+    category: 'browser',
     inputs: 1,
     outputs: 1,
     allowedInputs: true,
@@ -310,11 +293,12 @@ export const tasks = {
     },
   },
   conditions: {
+    label: '条件',
     name: 'Conditions',
     description: 'Conditional block',
     icon: 'ri-question-mark',
     component: 'BlockConditions',
-    category: 'conditions',
+    category: 'general',
     inputs: 1,
     outputs: 0,
     allowedInputs: true,
@@ -324,12 +308,13 @@ export const tasks = {
     },
   },
   'element-exists': {
+    label: '元素存在',
     name: 'Element exists',
     description: 'Check if an element is exists',
     icon: 'ri-focus-3-line',
     component: 'BlockElementExists',
     editComponent: 'EditElementExists',
-    category: 'conditions',
+    category: 'browser',
     inputs: 1,
     outputs: 2,
     allowedInputs: true,
@@ -344,11 +329,6 @@ export const tasks = {
 }
 
 export const categories = {
-  interaction: {
-    label: 'web交互',
-    name: 'Web interaction',
-    color: 'bg-green-200',
-  },
   browser: {
     label: '浏览器组件',
     name: 'Browser',
@@ -358,11 +338,6 @@ export const categories = {
     label: '通用组件',
     name: 'General',
     color: 'bg-yellow-200',
-  },
-  conditions: {
-    label: '条件',
-    name: 'Conditions',
-    color: 'bg-blue-200',
   },
 }
 

@@ -24,11 +24,11 @@
     >{{ workflow.name }}</p>
   </div>
   <div class="flex px-2">
-    <el-input v-model="state.query" placeholder="Search..." clearable :prefix-icon="Search" />
+    <el-input v-model="query" placeholder="搜索..." clearable :prefix-icon="Search" />
   </div>
   <hr class="m-2 border-gray-100" />
   <el-scrollbar>
-    <template v-for="(items, catId) in taskList" :key="catId">
+    <template v-for="(items, catId) in blocks" :key="catId">
       <div class="flex items-center top-0 space-x-2 mb-2">
         <span :class="categories[catId].color" class="h-3 w-3 rounded-full"></span>
         <p class="capitalize">{{ categories[catId].label || categories[catId].name }}</p>
@@ -52,7 +52,7 @@
   </el-scrollbar>
 </template>
 <script setup>
-import { shallowReactive, computed } from 'vue'
+import { ref, computed } from 'vue'
 import { Search } from '@element-plus/icons'
 import { tasks, categories } from '@/utils/shared';
 
@@ -67,17 +67,22 @@ const emit = defineEmits([
   'update',
 ]);
 
-const state = shallowReactive({
-  query: '',
-});
+const query = ref('');
 
-const taskList = Object.keys(tasks).reduce((arr, key) => {
-  const task = tasks[key];
-  (arr[task.category] = arr[task.category] || []).push({ id: key, ...task });
-  return arr;
-}, {});
+const blocksArr = Object.entries(tasks).map(([key, block]) => ({
+  ...block,
+  id: key,
+}));
 
-console.log(taskList)
+const blocks = computed(() =>
+  blocksArr.reduce((arr, block) => {
+    if (block.label.includes(query.value)) {
+      (arr[block.category] = arr[block.category] || []).push(block);
+    }
+
+    return arr;
+  }, {})
+);
 
 const icons = [
   'ri-global-line',
@@ -92,6 +97,14 @@ const icons = [
   'ri-cursor-line',
   'ri-download-line',
   'ri-command-line',
+  'ri-pie-chart-2-line',
+  'ri-calculator-fill',
+  'ri-customer-service-fill',
+  'ri-send-plane-fill',
+  'ri-message-3-fill',
+  'ri-hammer-line',
+  'ri-terminal-box-fill',
+  'ri-computer-line'
 ];
 </script>
 <style scoped>
