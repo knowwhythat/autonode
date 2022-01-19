@@ -52,7 +52,7 @@ export default {
         })
 
         this.showLoading = false
-        this.$router.push({ name: 'Home' })
+        this.$router.push({ name: 'workflows' })
       })
     }
     this.$router.addRoute({

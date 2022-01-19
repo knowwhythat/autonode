@@ -2,8 +2,8 @@
   <div :id="componentId" class="p-4">
     <div class="flex items-center">
       <div :class="block.category.color" class="inline-block text-sm mr-4 p-2 rounded-lg">
-        <i class="ri-question-mark" />
-        <span>conditions</span>
+        <i class="ri-question-mark ri-lg" />
+        <span class="font-semibold leading-none whitespace-nowrap">条件</span>
       </div>
       <div class="flex-grow"></div>
       <i class="ri-delete-bin-7-line ri-lg" @click="editor.removeNodeId(`node-${block.id}`)" />
@@ -21,9 +21,15 @@
       >
         <i class="ri-delete-bin-7-line rx-lg" @click="deleteComparison(index)" />
         <div class="flex items-center transition bg-input rounded-lg">
+          <input
+            v-model="block.data.conditions[index].key"
+            type="text"
+            placeholder="key"
+            class="p-2 flex-1 transition rounded-l-lg bg-transparent w-20"
+          />
           <select
             v-model="block.data.conditions[index].type"
-            :title="conditions[block.data.conditions[index]?.type] || 'Equals'"
+            :title="conditions[block.data.conditions[index]?.type] || '等于'"
             class="bg-transparent font-mono z-10 p-2 text-center transition rounded-l-lg appearance-none"
           >
             <option v-for="(name, type) in conditions" :key="type" :value="type">{{ type }}</option>
@@ -33,7 +39,7 @@
             v-model="block.data.conditions[index].value"
             type="text"
             placeholder="value"
-            class="p-2 flex-1 transition rounded-r-lg bg-transparent w-36"
+            class="p-2 flex-1 transition rounded-r-lg bg-transparent w-20"
           />
         </div>
       </div>

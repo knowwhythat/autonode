@@ -3,7 +3,6 @@ const plugin = require('tailwindcss/plugin')
 const selectorParser = require('postcss-selector-parser')
 
 module.exports = {
-  mode: 'jit',
   purge: ['./src/renderer/src/**/*.{js,jsx,ts,tsx,vue}'],
   darkMode: 'class', // or 'media' or 'class'
   theme: {

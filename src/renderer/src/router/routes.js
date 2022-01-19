@@ -1,26 +1,5 @@
 export const userRoutes = [
   {
-    path: '/index',
-    name: 'index',
-    component: 'layout/index.vue',
-    redirect: '/index/home',
-    // hidden: true,
-    // alwaysShow: true,
-    meta: { title: '首页', icon: 'ri-home-5-fill' },
-    children: [
-      {
-        path: 'home',
-        name: 'Home',
-        component: 'home/index.vue',
-        meta: {
-          title: '首页',
-          icon: 'ri-home-5-fill',
-          tabShow: true,
-        },
-      },
-    ],
-  },
-  {
     path: '/workflows',
     component: 'layout/index.vue',
     meta: {

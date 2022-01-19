@@ -1,17 +1,10 @@
 <template>
   <div class="ym-header">
     <div class="header-left">
-      <div class="header-tool" @click="outSide">
-        <i
-          class="ri-indent-decrease"
-          style="font-size: 18px"
-          :style="{ 'color': skinChoose.navColor }"
-        ></i>
-      </div>
+      <WorkflowActions />
     </div>
     <div class="header-right">
       <i class="ri-fullscreen-fill" @click="darkMode" :style="{ 'color': skinChoose.navColor }"></i>
-      <i class="ri-fullscreen-fill" @click="toScreenfull" :style="{ 'color': skinChoose.navColor }"></i>
       <el-dropdown>
         <span :style="{ 'color': skinChoose.navColor }">
           {{ userinfo && userinfo.nickname }}
@@ -34,10 +27,14 @@
 <script>
 import { mapState } from "vuex";
 import screenfull from "screenfull";
+import WorkflowActions from "./WorkflowActions.vue";
 
 export default {
   data() {
     return {};
+  },
+  components: {
+    WorkflowActions
   },
   computed: {
     ...mapState({
